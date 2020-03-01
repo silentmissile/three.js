@@ -24,6 +24,7 @@ function Material() {
 	this.side = FrontSide;
 	this.flatShading = false;
 	this.vertexColors = false;
+	this.vertexColorsHSL = false;
 
 	this.opacity = 1;
 	this.transparent = false;

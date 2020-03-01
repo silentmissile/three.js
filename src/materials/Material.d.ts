@@ -48,6 +48,7 @@ export interface MaterialParameters {
 	toneMapped?: boolean;
 	transparent?: boolean;
 	vertexColors?: boolean;
+	vertexColorsHSL?: boolean;
 	visible?: boolean;
 	stencilWrite?: boolean;
 	stencilFunc?: StencilFunc;
@@ -288,6 +289,7 @@ export class Material extends EventDispatcher {
 	 * Defines whether vertex coloring is used. Default is false.
 	 */
 	vertexColors: boolean;
+	vertexColorsHSL: boolean;
 
 	/**
 	 * Defines whether this material is visible. Default is true.

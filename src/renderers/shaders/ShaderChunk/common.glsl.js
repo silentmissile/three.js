@@ -118,4 +118,76 @@ bool isPerspectiveMatrix( mat4 m ) {
   return m[ 2 ][ 3 ] == - 1.0;
 
 }
+
+vec3 rgb2hsl(vec3 rgbColor) {
+	float rgbMin = min( min( rgbColor.r, rgbColor.g ), rgbColor.b );
+	float rgbMax = max( max( rgbColor.r, rgbColor.g ), rgbColor.b );
+	float L = 0.5 * ( rgbMin + rgbMax );
+	float S = 1.0;
+	float C = rgbMax - rgbMin;
+	if ( L < 0.5 ) {
+		S = C / (rgbMax + rgbMin);
+	} else {
+		S = C / (2.0 - rgbMax - rgbMin);
+	}
+	float H = 0.0;
+	if ( C != 0.0 ) {
+		if ( rgbColor.r > rgbColor.g && rgbColor.r > rgbColor.b ) {
+			
+			H = ( rgbColor.g - rgbColor.b ) / C;
+			if ( H < 0.0 ) {
+				H = H + 6.0;
+			
+			}
+		} else if ( rgbColor.g > rgbColor.r && rgbColor.g > rgbColor.b ) {
+			
+			H = 2.0 + ( rgbColor.b - rgbColor.r ) / C;
+		} else {
+			H = 4.0 + ( rgbColor.r - rgbColor.g ) / C;
+		}
+	}
+	H = min( H, 6.0 );
+	H = max( H, 0.0 );
+	return vec3( H * 60.0, S, L );
+}
+
+// const float numColors = 17.0;
+vec3 hsl2rgb(vec3 hslColor) {
+	float H = hslColor.x;
+	float S = hslColor.y;
+	float L = hslColor.z;
+	//float fcontour = H / 360.0;
+	//float rounded = floor(numColors * fcontour + 0.5) / numColors;
+	//H = 360.0 * rounded; //(1.0 - rounded);
+	float C = ( 1.0 - abs( 2.0 * L - 1.0 )) * S;
+	float D = H / 60.0 - 2.0 * floor( H / 120.0 );
+	float X = C * ( 1.0 - abs( D - 1.0 ) );
+	float M = L - 0.5 * C;
+	float rp = 0.0;
+	float gp = 0.0;
+	float bp = 0.0;
+	if ( H >= 0.0 && H < 60.0 ) {
+		
+		rp = C;
+		gp = X;
+	} else if ( H >= 60.0 && H < 120.0 ) {
+		rp = X;
+		gp = C;
+	} else if ( H >= 120.0 && H < 180.0 ) {
+		gp = C;
+		bp = X;
+	} else if ( H >= 180.0 && H < 240.0 ) {
+		
+		gp = X;
+		bp = C;
+	} else if ( H >= 240.0 && H < 300.0 ) {
+		
+		rp = X;
+		bp = C;
+	} else {
+		rp = C;
+		bp = X;
+	}
+	return vec3( rp + M, gp + M, bp + M );
+}
 `;
